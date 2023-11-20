@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  postgresql:
+    image: postgres:latest
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: DbChatGptx
+    networks:
+      dev:
+        ipv4_address: 192.168.192.4
+
+  api:
+    build:
+      context: ./CgptxBackendApi
+    ports:
+      - "5299:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - postgresql
+    networks:
+      dev:
+        ipv4_address: 192.168.192.5
+
+  react-app:
+    build:
+      context: ./gpt-clone
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      dev:
+        ipv4_address: 192.168.192.6
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.192.0/20
+          gateway: 192.168.192.1
