@@ -27,10 +27,11 @@ export class API implements IJsonAPI {
   // Parse the API response
   private async _parseResponse<T>(response: Response): Promise<T> {
     if (response.ok) {
-      return response.json() as T;
+      if (response.status === 204) {
+        return undefined as T;
+      }
     }
-    // TODO: deserialize json api error
-    throw new Error("Failed to load");
+    return response.json() as T;
   }
   // Makes an API call with provided request parameters
   private async _request<T, U>(
@@ -114,7 +115,7 @@ export class API implements IJsonAPI {
   delete(
     path: string,
     isAuthorized: boolean = true
-  ): Promise<JsonAPIResp<string>> {
+  ): Promise<JsonAPIResp<undefined>> {
     return this._request(path, "DELETE", isAuthorized);
   }
 }

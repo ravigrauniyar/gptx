@@ -42,5 +42,5 @@ export declare interface IJsonAPI {
   delete(
     path: string,
     isAuthorized: boolean = true
-  ): Promise<JsonAPIResp<string>>;
+  ): Promise<JsonAPIResp<undefined>>;
 }

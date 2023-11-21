@@ -1,6 +1,9 @@
 export declare type PromptQuery = {
   prompt: string;
 };
+declare type AccessStates ={
+  accessToken: string;
+}
 declare type TextBoxProps = {
   isUserPrompt: boolean;
   promptText: string;

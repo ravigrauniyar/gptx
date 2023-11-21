@@ -6,7 +6,12 @@ import {
 } from "../redux/slice/conversationSlice";
 import { Repository } from "../repositories/Repository";
 import { setChatHistory } from "../redux/slice/sidebarSlice";
-import { PromptData, Chat, PromptDataResponse, UpdateChat } from "../types/data";
+import {
+  PromptData,
+  Chat,
+  PromptDataResponse,
+  UpdateChat,
+} from "../types/data";
 
 export const fetchAndStoreResponse = async (
   apiRepo: Repository,
@@ -77,10 +82,7 @@ export const deleteChat = async (
   deleteChatRepo: Repository,
   chatId: string
 ) => {
-  const deleteChatRes = await deleteChatRepo.deleteChat(chatId);
-  if (deleteChatRes) {
-    console.log(deleteChatRes);
-  }
+  return await deleteChatRepo.deleteChat(chatId);
 };
 
 export const startNewChat = async (

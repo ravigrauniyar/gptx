@@ -16,6 +16,7 @@ import {
 import { useForm } from "react-hook-form";
 import { PopUpModal } from "./shared/PopUpModal";
 import { Chat, PopUpModalProps, UpdateChat } from "../types/data";
+import _ from "lodash";
 
 enum SelectedChatBg {
   active = "bg-[#343541]",
@@ -48,7 +49,10 @@ export const ChatHistory = () => {
     }
   };
   const handleDeleteChat = async () => {
-    await deleteChat(apiRepository, conversations.id);
+    const deleteResponse = await deleteChat(apiRepository, conversations.id);
+    if (_.isUndefined(deleteResponse)) {
+      console.log("Chat deleted successfully!");
+    }
     await startNewChat(apiRepository, dispatch);
     await getChatHistory(apiRepository, dispatch);
     dispatch(toggleDeletePopUpOpen());
