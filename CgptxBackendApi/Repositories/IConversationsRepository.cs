@@ -1,6 +1,7 @@
-using System.Runtime.CompilerServices;
+using CgptxBackendApi.Data.Entities;
+using CgptxBackendApi.Models.ChatModels;
 
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Repositories{
     public interface IConversationsRepository{
         public Task<List<Chat>> getPromptDataResponses();
         public Task<PromptDataResponse> storePromptData(PromptData data);

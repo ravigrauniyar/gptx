@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Data.Entities{
     public class PromptDataResponse{
         [Key]
         public string promptUniqueKey { get; set; } = Guid.Empty.ToString();

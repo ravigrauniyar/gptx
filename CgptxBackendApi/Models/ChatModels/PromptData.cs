@@ -1,4 +1,4 @@
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Models.ChatModels{
     public class PromptData{
         public string chatId {get; set;}= Guid.Empty.ToString();
         public string prompt {get; set;}= string.Empty;

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Data.Entities{
     public class ChatHistory{
         [Key]
         public string chatId {get; set;} = Guid.Empty.ToString();

@@ -1,4 +1,4 @@
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Models.ApiResponses{
     public class ApiErrorModel{
         public string status { get; set; } = string.Empty;
         public string title { get; set; } = string.Empty;

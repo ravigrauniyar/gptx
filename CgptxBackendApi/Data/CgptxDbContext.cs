@@ -1,3 +1,4 @@
+using CgptxBackendApi.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CgptxBackendApi{
@@ -5,6 +6,7 @@ namespace CgptxBackendApi{
         public CgptxDbContext(DbContextOptions<CgptxDbContext> options) : base(options)
         {
         }
+        public DbSet<User> Users { get; set; }
         public DbSet<PromptDataResponse> PromptDataResponses { get; set; }
         public DbSet<ChatHistory> ChatHistories { get; set; }
     }

@@ -1,6 +1,8 @@
+using CgptxBackendApi.Data.Commands;
+using CgptxBackendApi.Repositories;
 using MediatR;
 
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Data.Handlers{
     public class DeleteChatHandler : IRequestHandler<DeleteChatCommand>
     {
         private readonly IConversationsRepository _chatRepository;

@@ -1,6 +1,10 @@
+using CgptxBackendApi.Data.Commands;
+using CgptxBackendApi.Models.ApiResponses;
+using CgptxBackendApi.Models.ChatModels;
+using CgptxBackendApi.Repositories;
 using MediatR;
 
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Data.Handlers{
     public class NewChatHandler : IRequestHandler<NewChatCommand, ApiResponseModel<Chat>>
     {
         private readonly IConversationsRepository _chatRepository;

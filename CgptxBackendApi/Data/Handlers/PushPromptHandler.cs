@@ -1,6 +1,10 @@
+using CgptxBackendApi.Data.Commands;
+using CgptxBackendApi.Data.Entities;
+using CgptxBackendApi.Models.ApiResponses;
+using CgptxBackendApi.Repositories;
 using MediatR;
 
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Data.Handlers{
     public class PushPromptHandler : IRequestHandler<PushPromptData, ApiResponseModel<PromptDataResponse>>
     {
         private readonly IConversationsRepository _chatRepository;

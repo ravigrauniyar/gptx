@@ -1,3 +1,5 @@
+using CgptxBackendApi.Models.ApiResponses;
+using CgptxBackendApi.Models.ChatModels;
 using MediatR;
 
 namespace CgptxBackendApi{

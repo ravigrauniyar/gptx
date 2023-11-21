@@ -1,7 +1,9 @@
 
+using CgptxBackendApi.Data.Entities;
+using CgptxBackendApi.Models.ChatModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace CgptxBackendApi
+namespace CgptxBackendApi.Repositories
 {
     public class ConversationsRepository : IConversationsRepository
     {

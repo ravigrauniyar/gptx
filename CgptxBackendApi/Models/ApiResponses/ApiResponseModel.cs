@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Models.ApiResponses{
     public class ApiResponseModel<T>{
         [JsonIgnore(Condition =JsonIgnoreCondition.WhenWritingNull)]
         public ApiObjectResponse<T>? apiObjectResponse{ get; set; } = null;

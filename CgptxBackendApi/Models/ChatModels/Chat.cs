@@ -1,4 +1,4 @@
-namespace CgptxBackendApi{
+namespace CgptxBackendApi.Models.ChatModels{
     public class Chat{
         public string id {get; set;}= string.Empty;
         public string title {get; set;}= string.Empty;

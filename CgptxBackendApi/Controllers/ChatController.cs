@@ -1,8 +1,13 @@
+using CgptxBackendApi.Data.Commands;
+using CgptxBackendApi.Models.ApiResponses;
+using CgptxBackendApi.Models.ChatModels;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CgptxBackendApi{
     [ApiController]
+    [Authorize]
     [Route("/api/conversations/")]
     public class ChatController: Controller{
         private readonly IMediator _mediator;
