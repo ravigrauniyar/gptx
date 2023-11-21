@@ -5,7 +5,7 @@ namespace CgptxBackendApi{
         public Task<List<Chat>> getPromptDataResponses();
         public Task<PromptDataResponse> storePromptData(PromptData data);
         public Task<Chat> updateChat(UpdateChat updateData, string id);
-        public Task<string> deleteChat(string id);
+        public Task deleteChat(string id);
         public Task<Chat> startNewChat();
     }
 }

@@ -118,7 +118,7 @@ namespace CgptxBackendApi
             
             return chats.FirstOrDefault(c => c.id == id) ?? throw new Exception();
         }
-        public async Task<string> deleteChat(string id){
+        public async Task deleteChat(string id){
             var chat = await _dbContext.ChatHistories
                         .AsNoTracking()
                         .FirstOrDefaultAsync(c => c.chatId == id) 
@@ -140,7 +140,6 @@ namespace CgptxBackendApi
 
                 await _dbContext.SaveChangesAsync();
                 transaction.Commit();
-                return "Chat deleted successfully!";
             }
             catch (Exception)
             {

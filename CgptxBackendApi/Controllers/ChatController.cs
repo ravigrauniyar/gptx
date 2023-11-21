@@ -76,10 +76,8 @@ namespace CgptxBackendApi{
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteChat([FromRoute] string id){
             try{
-                var response = await _mediator.Send(new DeleteChatCommand(id));
-                return response.apiErrorResponse == null 
-                        ? Ok(response.apiObjectResponse)
-                        : BadRequest(response.apiErrorResponse);
+                await _mediator.Send(new DeleteChatCommand(id));
+                return StatusCode(204);
             }
             catch (Exception ex)
             {

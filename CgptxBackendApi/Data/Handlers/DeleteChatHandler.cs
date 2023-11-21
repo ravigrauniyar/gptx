@@ -1,7 +1,7 @@
 using MediatR;
 
 namespace CgptxBackendApi{
-    public class DeleteChatHandler : IRequestHandler<DeleteChatCommand, ApiResponseModel<string>>
+    public class DeleteChatHandler : IRequestHandler<DeleteChatCommand>
     {
         private readonly IConversationsRepository _chatRepository;
         private readonly ILogger<DeleteChatHandler> _logger;
@@ -10,23 +10,15 @@ namespace CgptxBackendApi{
             _chatRepository = conversationsRepository;
             _logger = logger;
         }
-        public async Task<ApiResponseModel<string>> Handle(DeleteChatCommand request, CancellationToken cancellationToken)
+        public async Task Handle(DeleteChatCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var response = await _chatRepository.deleteChat(request.id);
-                return ApiResponseModel<string>.AsSuccess("Chat deleted successfully!");
+                await _chatRepository.deleteChat(request.id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError(ex, "An expection occurred in the DeleteChatHandler.");
-                var error = new ApiErrorModel
-                {
-                    status = "Failure",
-                    title = "Exception occurred while deleting Chat.",
-                    detail = ex.Message
-                };
-                return ApiResponseModel<string>.AsFailure(error);
+                throw;
             }
         }
     }
