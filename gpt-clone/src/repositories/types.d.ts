@@ -1,7 +1,13 @@
+import { TokenResponse } from "@react-oauth/google";
 import { JsonAPIErrorResp } from "../client/api/types";
 import { IStorageClient } from "../client/storage/types";
+import { TokenRequest } from "../types/data";
 
 export interface IRepository {
+  requestLogin(
+    googleToken: TokenRequest
+  ): Promise<TokenResponse | JsonAPIErrorResp | undefined>;
+  
   getStorage(): Promise<IStorageClient>;
 
   getAiResponse(prompt: string): Promise<string>;

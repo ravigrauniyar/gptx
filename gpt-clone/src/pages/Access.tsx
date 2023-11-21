@@ -3,6 +3,10 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useContext } from "react";
 import { RepositoryContext } from "../shared/contexts";
 import { Repository } from "../repositories/Repository";
+import { requestLogin } from "../services/ApiServices";
+import { TokenRequest } from "../types/data";
+import { useDispatch } from "react-redux";
+import { setAuthToken } from "../redux/slice/accessSlice";
 
 const enum LoginDivBgColor {
   default = "bg-white",
@@ -10,6 +14,7 @@ const enum LoginDivBgColor {
 }
 export const Access = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const repository = useContext<Repository>(RepositoryContext);
   const googleLogin = useGoogleLogin({
@@ -17,8 +22,19 @@ export const Access = () => {
       const googleToken = response.access_token;
       const localStorage = await repository.getStorage();
 
-      await localStorage.setAccessToken(googleToken);
-      navigate("/conversations");
+      const tokenRequest: TokenRequest = {
+        google_token: googleToken,
+      };
+      const loginResponse = await requestLogin(repository, tokenRequest);
+      if (loginResponse) {
+        if ("access_token" in loginResponse) {
+          localStorage.setAccessToken(loginResponse.access_token);
+          dispatch(setAuthToken(loginResponse.access_token));
+          
+          localStorage.setRefreshToken(loginResponse.refresh_token);
+          navigate("/conversations");
+        }
+      } else console.error("Could not login");
     },
   });
   return (

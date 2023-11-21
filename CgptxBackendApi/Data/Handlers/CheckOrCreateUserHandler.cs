@@ -8,9 +8,9 @@ namespace CgptxBackendApi.Data.Handlers{
     public class CheckOrCreateUserHandler : IRequestHandler<CheckOrCreateUserCommand, ApiResponseModel<User>>
     {
         private readonly IAccessRepository _accessRepository;
-        private readonly ILogger<PushPromptHandler> _logger;
+        private readonly ILogger<CheckOrCreateUserHandler> _logger;
 
-        public CheckOrCreateUserHandler(IAccessRepository accessRepository, ILogger<PushPromptHandler> logger){
+        public CheckOrCreateUserHandler(IAccessRepository accessRepository, ILogger<CheckOrCreateUserHandler> logger){
             _accessRepository = accessRepository;
             _logger = logger;
         }

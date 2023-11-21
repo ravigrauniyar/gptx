@@ -1,9 +1,17 @@
 export declare type PromptQuery = {
   prompt: string;
 };
-declare type AccessStates ={
-  accessToken: string;
+declare type TokenRequest = {
+  google_token: string;
 }
+declare type RefreshTokenRequest = {
+  refresh_token: string;
+}
+declare type TokenResponse = {
+  access_token: string;
+  refresh_token: string;
+}
+
 declare type TextBoxProps = {
   isUserPrompt: boolean;
   promptText: string;

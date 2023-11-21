@@ -41,6 +41,7 @@ export declare interface IJsonAPI {
 
   delete(
     path: string,
+    headers: Map<string, string> = new Map(),
     isAuthorized: boolean = true
   ): Promise<JsonAPIResp<undefined>>;
 }

@@ -8,9 +8,9 @@ namespace CgptxBackendApi.Data.Handlers{
     public class UpdateChatHandler : IRequestHandler<UpdateChatCommand, ApiResponseModel<Chat>>
     {
         private readonly IConversationsRepository _chatRepository;
-        private readonly ILogger<PushPromptHandler> _logger;
+        private readonly ILogger<UpdateChatHandler> _logger;
 
-        public UpdateChatHandler(IConversationsRepository conversationsRepository, ILogger<PushPromptHandler> logger){
+        public UpdateChatHandler(IConversationsRepository conversationsRepository, ILogger<UpdateChatHandler> logger){
             _chatRepository = conversationsRepository;
             _logger = logger;
         }

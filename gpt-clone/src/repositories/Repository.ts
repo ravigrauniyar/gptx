@@ -14,7 +14,7 @@ export class Repository implements IRepository {
     localStorageClient: IStorageClient
   ) {
     this._localStorage = localStorageClient;
-    this._api = new API(VITE_OPENAI_API_KEY, VITE_BASE_URL);
+    this._api = new API(VITE_OPENAI_API_KEY, VITE_BASE_URL, localStorageClient);
   }
   private _getResponse<T>(response: JsonAPIResp<T>) {
     return "data" in response
@@ -23,10 +23,20 @@ export class Repository implements IRepository {
       ? response
       : undefined;
   }
-
   // Implementation of IRepository
   async getStorage(): Promise<IStorageClient> {
     return this._localStorage;
+  }
+  async requestLogin<TokenResponse, TokenRequest>(
+    googleToken: TokenRequest
+  ): Promise<TokenResponse | JsonAPIErrorResp | undefined> {
+    const responseData = await this._api.post<TokenResponse, TokenRequest>(
+      "access/request",
+      googleToken,
+      undefined,
+      false
+    );
+    return this._getResponse(responseData);
   }
   async getAiResponse(prompt: string): Promise<string> {
     const responseData = await this._api.getPromptResponse(prompt);
@@ -35,24 +45,15 @@ export class Repository implements IRepository {
       : responseData.content!;
   }
   async getChatHistory<Chat>() {
-    const responseData = await this._api.get<Chat[]>(
-      this.CHAT_CONTROLLER_URL,
-      undefined,
-      false
-    );
+    const responseData = await this._api.get<Chat[]>(this.CHAT_CONTROLLER_URL);
     return this._getResponse(responseData);
   }
   async storePromptData<PromptDataResponse, PromptData>(
     data: PromptData
   ): Promise<PromptDataResponse | JsonAPIErrorResp | undefined> {
-    const headers = new Map<string, string>();
-    headers.set("Content-Type", "application/json");
-
     const response = await this._api.post<PromptDataResponse, PromptData>(
       `${this.CHAT_CONTROLLER_URL}/prompts`,
-      data,
-      headers,
-      false
+      data
     );
     return this._getResponse(response);
   }
@@ -60,21 +61,15 @@ export class Repository implements IRepository {
     chatId: string,
     body?: UpdateChat
   ): Promise<Chat | JsonAPIErrorResp | undefined> {
-    const headers = new Map<string, string>();
-    headers.set("Content-Type", "application/json");
-
     const response = await this._api.put<Chat, UpdateChat>(
       `${this.CHAT_CONTROLLER_URL}/${chatId}`,
-      body!,
-      headers,
-      false
+      body!
     );
     return this._getResponse<Chat>(response);
   }
   async deleteChat(id: string): Promise<undefined> {
     const response = await this._api.delete(
-      `${this.CHAT_CONTROLLER_URL}/${id}`,
-      false
+      `${this.CHAT_CONTROLLER_URL}/${id}`
     );
     if (response) {
       if ("errors" in response) {
@@ -84,10 +79,7 @@ export class Repository implements IRepository {
   }
   async startNewChat<Chat>(): Promise<Chat | JsonAPIErrorResp | undefined> {
     const response = await this._api.put<Chat, undefined>(
-      `${this.CHAT_CONTROLLER_URL}/new_chat`,
-      undefined,
-      undefined,
-      false
+      `${this.CHAT_CONTROLLER_URL}/new_chat`
     );
     return this._getResponse<Chat>(response);
   }

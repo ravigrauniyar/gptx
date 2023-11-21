@@ -11,7 +11,16 @@ import {
   Chat,
   PromptDataResponse,
   UpdateChat,
+  TokenRequest,
+  TokenResponse,
 } from "../types/data";
+
+export const requestLogin = async (
+  apiRepo: Repository,
+  googleToken: TokenRequest
+) => {
+  return await apiRepo.requestLogin<TokenResponse, TokenRequest>(googleToken);
+};
 
 export const fetchAndStoreResponse = async (
   apiRepo: Repository,

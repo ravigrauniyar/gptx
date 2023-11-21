@@ -32,8 +32,8 @@ namespace CgptxBackendApi{
                         var userIdForToken = new UserIdForToken{
                             id = userId
                         };
-                        var accessToken = _baseController.GetTokenResponse(userIdForToken, 1);
-                        var refreshToken = _baseController.GetTokenResponse(userIdForToken, 10);
+                        var accessToken = _baseController.GetTokenResponse(userIdForToken, 10);
+                        var refreshToken = _baseController.GetTokenResponse(userIdForToken, 1000);
 
                         if(accessToken != null && refreshToken != null){
                             var tokenResponse = new TokenResponse{

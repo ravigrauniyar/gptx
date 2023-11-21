@@ -1,19 +1,16 @@
-using System.Text.Json.Nodes;
 using CgptxBackendApi.Data.Commands;
-using CgptxBackendApi.Data.Handlers;
 using CgptxBackendApi.Models.AccessModels;
 using CgptxBackendApi.Models.ApiResponses;
-using CgptxBackendApi.Repositories;
 using MediatR;
 using Newtonsoft.Json;
 
 namespace CgptxBackendApi.Data.Handlers{
     public class RequestLoginHandler : IRequestHandler<RequestLoginCommand, ApiResponseModel<GoogleProfile>>
     { 
-        private readonly ILogger<PushPromptHandler> _logger;
+        private readonly ILogger<RequestLoginHandler> _logger;
         private readonly IConfiguration _configuration;
 
-        public RequestLoginHandler(IConversationsRepository conversationsRepository, ILogger<PushPromptHandler> logger, IConfiguration configuration){
+        public RequestLoginHandler(ILogger<RequestLoginHandler> logger, IConfiguration configuration){
             _logger = logger;
             _configuration = configuration;
         }
@@ -22,12 +19,12 @@ namespace CgptxBackendApi.Data.Handlers{
             try{
                 using HttpClient client = new();
                 var googleTokenUrl = _configuration.GetValue<string>("GoogleTokenUrl");
-                var tokenValidationResponse = await client.GetAsync(googleTokenUrl + "?access_token=" + request.tokenRequest.access_token, cancellationToken);
+                var tokenValidationResponse = await client.GetAsync(googleTokenUrl + "?access_token=" + request.tokenRequest.google_token, cancellationToken);
                 
                 if(tokenValidationResponse.IsSuccessStatusCode){
                     var googleProfileUrl = _configuration.GetValue<string>("GoogleProfileUrl");
                     
-                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + request.tokenRequest.access_token);
+                    client.DefaultRequestHeaders.Add("Authorization", "Bearer " + request.tokenRequest.google_token);
                     var profileResponse = await client.GetAsync(googleProfileUrl, cancellationToken);
 
                     if(profileResponse.IsSuccessStatusCode){

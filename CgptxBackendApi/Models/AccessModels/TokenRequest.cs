@@ -1,6 +1,6 @@
 namespace CgptxBackendApi.Models.AccessModels{
     public class TokenRequest{
-        public string access_token {get; set;} = string.Empty;
+        public string google_token {get; set;} = string.Empty;
     }
     public class Jwt
     {
