@@ -1,8 +1,8 @@
 using System.Reflection;
 using System.Text;
 using CgptxBackendApi;
-using CgptxBackendApi.Controllers;
 using CgptxBackendApi.Repositories;
+using CgptxBackendApi.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -104,7 +104,7 @@ builder.Services.AddDbContext<CgptxDbContext>
 builder.Services.AddScoped<IConversationsRepository, ConversationsRepository>();
 builder.Services.AddScoped<IAccessRepository, AccessRepository>();
 
-builder.Services.AddScoped<BaseController>();
+builder.Services.AddScoped<HttpContextHandler>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();

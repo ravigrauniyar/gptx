@@ -26,8 +26,7 @@ export const Sidebar = () => {
     if (conversation.loadingResponseWithIndex !== -1) {
       const promptData: PromptData = {
         chatId: conversation.id,
-        prompt:
-          conversation.userPrompts[conversation.loadingResponseWithIndex - 1],
+        prompt: conversation.userPrompts[conversation.loadingResponseWithIndex],
 
         responseIndex: conversation.loadingResponseWithIndex,
         response: "Interrupted",

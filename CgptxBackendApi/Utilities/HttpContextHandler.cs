@@ -1,19 +1,16 @@
 using System.Security.Claims;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using CgptxBackendApi.Data.Entities;
-using CgptxBackendApi.Models.ApiResponses;
 using CgptxBackendApi.Models.AccessModels;
 
-namespace CgptxBackendApi.Controllers{
-    public class BaseController: ControllerBase{
+namespace CgptxBackendApi.Utilities{
+    public class HttpContextHandler{
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
-        public BaseController(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
+        public HttpContextHandler(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
             _configuration = configuration;

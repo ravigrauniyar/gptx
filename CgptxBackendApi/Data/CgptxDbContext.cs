@@ -9,5 +9,7 @@ namespace CgptxBackendApi{
         public DbSet<User> Users { get; set; }
         public DbSet<PromptDataResponse> PromptDataResponses { get; set; }
         public DbSet<ChatHistory> ChatHistories { get; set; }
+        public DbSet<UserChatRelation> UserChatRelations { get; set; }
+        public DbSet<ChatPromptsRelation> ChatPromptsRelations { get; set; }
     }
 }

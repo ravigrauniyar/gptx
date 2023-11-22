@@ -3,6 +3,7 @@ using CgptxBackendApi.Models.ChatModels;
 
 namespace CgptxBackendApi.Repositories{
     public interface IConversationsRepository{
+        public Task<Dictionary<string, Dictionary<string, PromptDataResponse>>> getChatPromptData();
         public Task<List<Chat>> getPromptDataResponses();
         public Task<PromptDataResponse> storePromptData(PromptData data);
         public Task<Chat> updateChat(UpdateChat updateData, string id);

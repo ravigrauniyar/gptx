@@ -5,5 +5,6 @@ namespace CgptxBackendApi.Models.ChatModels{
         public bool isLastOpenedChat {get; set;}
         public List<string> userPrompts {get; set;} = new List<string>();
         public List<string>  aiResponses {get; set;} = new List<string>();
+        public string created_at { get; set; } = string.Empty;
     }
 }

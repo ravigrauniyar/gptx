@@ -1,7 +1,7 @@
-using CgptxBackendApi.Controllers;
 using CgptxBackendApi.Data.Commands;
 using CgptxBackendApi.Models.AccessModels;
 using CgptxBackendApi.Models.ApiResponses;
+using CgptxBackendApi.Utilities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +11,12 @@ namespace CgptxBackendApi{
     public class AccessController: Controller{
         private readonly IMediator _mediator;
         private readonly ILogger<ChatController> _logger;
-        private readonly BaseController _baseController;
-        public AccessController(IMediator mediator, ILogger<ChatController> logger, BaseController baseController)
+        private readonly HttpContextHandler _httpContextHandler;
+        public AccessController(IMediator mediator, ILogger<ChatController> logger, HttpContextHandler httpContextHandler)
         {
             _mediator = mediator;
             _logger = logger;
-            _baseController = baseController;
+            _httpContextHandler = httpContextHandler;
         }
 
         [HttpPost("request")]
@@ -32,8 +32,8 @@ namespace CgptxBackendApi{
                         var userIdForToken = new UserIdForToken{
                             id = userId
                         };
-                        var accessToken = _baseController.GetTokenResponse(userIdForToken, 10);
-                        var refreshToken = _baseController.GetTokenResponse(userIdForToken, 1000);
+                        var accessToken = _httpContextHandler.GetTokenResponse(userIdForToken, 10);
+                        var refreshToken = _httpContextHandler.GetTokenResponse(userIdForToken, 1000);
 
                         if(accessToken != null && refreshToken != null){
                             var tokenResponse = new TokenResponse{
@@ -65,12 +65,12 @@ namespace CgptxBackendApi{
     
         [HttpPost("refresh")]
         public IActionResult RefreshToken([FromBody] RefreshTokenRequest request) {
-            var (isExpired, userId) = _baseController.ValidateTokenAndGetUserId(request.refresh_token);
+            var (isExpired, userId) = _httpContextHandler.ValidateTokenAndGetUserId(request.refresh_token);
             if(!isExpired){
                 var userIdForToken = new UserIdForToken{
                     id = userId!
                 };
-                var accessToken = _baseController.GetTokenResponse(userIdForToken, 1);
+                var accessToken = _httpContextHandler.GetTokenResponse(userIdForToken, 1);
                 var tokenResponse = new TokenResponse{
                     access_token = accessToken,
                     refresh_token = request.refresh_token
