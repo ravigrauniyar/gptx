@@ -10,9 +10,9 @@ import { Access } from "../pages/Access";
 export const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<Access />} />
+      <Route path="/auth/login" element={<Access />} />
       <Route element={<PrivateRoute />}>
-        <Route path="conversations" element={<Conversations />} />
+        <Route path="/" element={<Conversations />} />
       </Route>
     </Route>
   )

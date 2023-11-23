@@ -32,7 +32,7 @@ export const Access = () => {
           dispatch(setAuthToken(loginResponse.access_token));
 
           localStorage.setRefreshToken(loginResponse.refresh_token);
-          navigate("/conversations");
+          navigate("/");
         }
       } else console.error("Could not login");
     },

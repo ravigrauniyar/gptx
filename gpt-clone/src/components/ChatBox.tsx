@@ -76,7 +76,7 @@ export const Chatbox = () => {
           <div className="grow" />
           <div className="font-[600] text-4xl">ChatGPTX</div>
           <div className="grow" />
-          <div className="flex md:flex-col lg:flex-row justify-around w-full xl:w-3/4 text-sm text-[#c5c5d2]">
+          <div className="flex md:flex-col lg:flex-row justify-around w-full xl:w-3/4 max-w-[960px] text-sm text-[#c5c5d2]">
             {promptSuggestions.map((column, count) => {
               const columnStyle = count === 1 ? "block" : "hidden md:block";
               return (
@@ -110,21 +110,23 @@ export const Chatbox = () => {
           <div className="flex text-sm justify-center items-center text-defaultTextColor w-full h-[75px] border-b border-b-[#20212380]">
             Default(GPTX-1.0)
           </div>
-          {conversations.userPrompts.map((userPrompt: string, index: number) => {
-            return (
-              <div key={index}>
-                <TextBox isUserPrompt={true} promptText={userPrompt} />
-                <TextBox
-                  isUserPrompt={false}
-                  promptText={
-                    conversations.loadingResponseWithIndex === index
-                      ? "Loading..."
-                      : conversations.aiResponses[index]
-                  }
-                />
-              </div>
-            );
-          })}
+          {conversations.userPrompts.map(
+            (userPrompt: string, index: number) => {
+              return (
+                <div key={index}>
+                  <TextBox isUserPrompt={true} promptText={userPrompt} />
+                  <TextBox
+                    isUserPrompt={false}
+                    promptText={
+                      conversations.loadingResponseWithIndex === index
+                        ? "Loading..."
+                        : conversations.aiResponses[index]
+                    }
+                  />
+                </div>
+              );
+            }
+          )}
           <div className="w-full h-[120px] md:h-[240px]" />
         </div>
       )}

@@ -11,10 +11,14 @@ import { Repository } from "../repositories/Repository";
 import { RepositoryContext } from "../shared/contexts";
 import { startNewChat, storePromptData } from "../services/ApiServices";
 import { PromptData } from "../types/data";
-import { setUserProfile } from "../redux/slice/accessSlice";
+import { setAuthToken, setUserProfile } from "../redux/slice/accessSlice";
+import { useNavigate } from "react-router-dom";
+import { TooltipComponent } from "./shared/Tooltip";
 
 export const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const sidebar = useSelector((state: RootState) => state.sidebar);
   const conversation = useSelector((state: RootState) => state.conversations);
   const profile = useSelector(
@@ -53,6 +57,16 @@ export const Sidebar = () => {
     }
     await startNewChat(apiRepository, dispatch);
   };
+  const logout = async () => {
+    dispatch(setAuthToken(""));
+    dispatch(setUserProfile(null));
+
+    const localStorage = await apiRepository.getStorage();
+    await localStorage.setAccessToken("");
+    await localStorage.setRefreshToken("");
+
+    navigate("/auth/login");
+  };
 
   return sidebar.isSidebarOpen ? (
     <div className="hidden md:flex flex-col items-center min-w-[260px] bg-[#202123]">
@@ -65,14 +79,19 @@ export const Sidebar = () => {
           <div className="ml-3 text-white cursor-pointer">New Chat</div>
         </div>
         <div
+          data-tooltip-id="hideSidebar"
+          data-tooltip-offset={10}
+          data-tooltip-content="Hide Sidebar"
+          data-tooltip-place="right"
           onClick={() => dispatch(toggleSidebarOpen())}
-          className="flex w-[55px] p-3 items-center justify-center rounded-md border border-[#565869] cursor-pointer"
+          className="relative flex w-[55px] p-3 items-center justify-center rounded-md border border-[#565869] cursor-pointer"
         >
           <img
             src="/icons/Sidebar.svg"
             alt="Sidebar Toggler"
             className="w-[20px] h-[20px]"
           />
+          <TooltipComponent id="hideSidebar" />
         </div>
       </div>
       <ChatHistory />
@@ -89,19 +108,30 @@ export const Sidebar = () => {
                 picture={profile.picture}
                 dimension="w-[30px] h-[30px]"
               />
-              <p className="font-bold ml-3">{`${profile.first_name} ${profile.last_name}`}</p>
+              <p className="font-bold text-[20px] ml-2">{`${profile.first_name} ${profile.last_name}`}</p>
             </div>
-            <img
-              src="/icons/HorizontalDots.svg"
-              alt="Dots Icon"
-              className="w-[25px]"
-            />
+            <div className="relative">
+              <img
+                data-tooltip-id="logout"
+                data-tooltip-content="Logout"
+                data-tooltip-place="right"
+                src="/icons/Logout.svg"
+                alt="Logout Icon"
+                className="w-[25px] cursor-pointer"
+                onClick={logout}
+              />
+              <TooltipComponent id="logout" />
+            </div>
           </div>
         )}
       </div>
     </div>
   ) : (
     <div
+      data-tooltip-id="showSidebar"
+      data-tooltip-offset={10}
+      data-tooltip-content="Show Sidebar"
+      data-tooltip-place="right"
       onClick={() => dispatch(toggleSidebarOpen())}
       className="absolute z-10 hidden md:flex flex-col items-center justify-center m-[10px] w-[55px] h-[55px] hover:bg-[#444654] rounded-md cursor-pointer"
     >
@@ -110,6 +140,7 @@ export const Sidebar = () => {
         alt="Sidebar Toggler"
         className="w-[20px] h-[20px]"
       />
+      <TooltipComponent id="showSidebar" />
     </div>
   );
 };

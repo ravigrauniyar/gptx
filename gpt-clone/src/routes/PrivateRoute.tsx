@@ -8,6 +8,6 @@ export const PrivateRoute = () => {
   );
 
   return (
-    <>{accessSlice.accessToken ? <Outlet /> : <Navigate to="/" replace />}</>
+    <>{accessSlice.accessToken ? <Outlet /> : <Navigate to="/auth/login" replace />}</>
   );
 };

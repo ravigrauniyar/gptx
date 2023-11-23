@@ -31,6 +31,18 @@ namespace CgptxBackendApi.Repositories
                 return newUser;
             }
             else{
+                if(
+                    prevUser.first_name != user.given_name
+                    || prevUser.last_name != user.family_name
+                    || prevUser.picture != user.picture
+                ){
+                    prevUser.first_name = user.given_name;
+                    prevUser.last_name = user.family_name;
+                    prevUser.picture = user.picture;
+                    prevUser.updatedAt = DateTime.UtcNow;
+
+                    await _dbContext.SaveChangesAsync();
+                }
                 return prevUser;
             }
         }
