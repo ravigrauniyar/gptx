@@ -4,7 +4,7 @@ import { RootState } from "../redux/store";
 
 export const PrivateRoute = () => {
   const accessSlice = useSelector(
-    (state: RootState) => state.persistedReducer.auth
+    (state: RootState) => state.persistedReducer.accessStates
   );
 
   return (

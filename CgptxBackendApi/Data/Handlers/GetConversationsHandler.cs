@@ -1,3 +1,4 @@
+using CgptxBackendApi.Data.Queries;
 using CgptxBackendApi.Models.ApiResponses;
 using CgptxBackendApi.Models.ChatModels;
 using CgptxBackendApi.Repositories;

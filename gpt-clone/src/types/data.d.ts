@@ -1,16 +1,26 @@
 export declare type PromptQuery = {
   prompt: string;
 };
+declare type AccessStates = {
+  accessToken: string;
+  userProfile: UserProfile | null;
+};
+declare type UserProfile = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  picture: string;
+};
 declare type TokenRequest = {
   google_token: string;
-}
+};
 declare type RefreshTokenRequest = {
   refresh_token: string;
-}
+};
 declare type TokenResponse = {
   access_token: string;
   refresh_token: string;
-}
+};
 
 declare type TextBoxProps = {
   isUserPrompt: boolean;
@@ -19,7 +29,7 @@ declare type TextBoxProps = {
 
 declare type AvatarProps = {
   dimension: string;
-  bgColor: string;
+  picture: string;
 };
 
 declare type ConversationProps = {

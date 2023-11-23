@@ -1,12 +1,14 @@
 import { API } from "../client/api/api";
 import { JsonAPIResp, JsonAPIErrorResp } from "../client/api/types";
 import { IStorageClient } from "../client/storage/types";
+import { UserProfile } from "../types/data";
 import { IRepository } from "./types";
 
 export class Repository implements IRepository {
   private _api: API;
   private _localStorage: IStorageClient;
   private CHAT_CONTROLLER_URL = "conversations";
+  private ACCESS_CONTROLLER_URL = "access";
 
   constructor(
     VITE_OPENAI_API_KEY: string,
@@ -31,7 +33,7 @@ export class Repository implements IRepository {
     googleToken: TokenRequest
   ): Promise<TokenResponse | JsonAPIErrorResp | undefined> {
     const responseData = await this._api.post<TokenResponse, TokenRequest>(
-      "access/request",
+      `${this.ACCESS_CONTROLLER_URL}/request`,
       googleToken,
       undefined,
       false
@@ -43,6 +45,12 @@ export class Repository implements IRepository {
     return typeof responseData === "string"
       ? "Unsuccessful"
       : responseData.content!;
+  }
+  async getUserProfile(): Promise<UserProfile | JsonAPIErrorResp | undefined> {
+    const userResponse = await this._api.get<UserProfile>(
+      `${this.ACCESS_CONTROLLER_URL}/profile`
+    );
+    return this._getResponse<UserProfile>(userResponse);
   }
   async getChatHistory<Chat>() {
     const responseData = await this._api.get<Chat[]>(this.CHAT_CONTROLLER_URL);

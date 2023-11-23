@@ -18,7 +18,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
-    auth: accessSlice,
+    accessStates: accessSlice,
   })
 );
 export const gptStore = configureStore({

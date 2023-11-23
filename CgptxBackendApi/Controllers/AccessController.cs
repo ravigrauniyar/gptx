@@ -1,8 +1,10 @@
 using CgptxBackendApi.Data.Commands;
+using CgptxBackendApi.Data.Queries;
 using CgptxBackendApi.Models.AccessModels;
 using CgptxBackendApi.Models.ApiResponses;
 using CgptxBackendApi.Utilities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CgptxBackendApi{
@@ -82,6 +84,30 @@ namespace CgptxBackendApi{
                     status= "Failure",
                     title="Expired Signature.",
                     detail= "Refresh token is expired!"
+                };
+                return BadRequest(ApiResponseModel<string>.AsFailure(error).apiErrorResponse);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetProfile(){
+            var userId = _httpContextHandler.ClaimValue().id;
+            try{
+                if(userId != string.Empty){
+                    var userResponse = await _mediator.Send(new GetProfileQuery(userId));
+                    return userResponse.apiErrorResponse == null 
+                        ? Ok(userResponse.apiObjectResponse) 
+                        : BadRequest(userResponse.apiErrorResponse);
+                }
+                else return StatusCode(403);
+            }
+            catch(Exception ex) {
+                _logger.LogError(ex, "An expection occurred in the GetProfile method of AccessController.");
+                var error = new ApiErrorModel{
+                    status= "Failure",
+                    title="Exception occurred while requesting for profile.",
+                    detail= ex.Message
                 };
                 return BadRequest(ApiResponseModel<string>.AsFailure(error).apiErrorResponse);
             }

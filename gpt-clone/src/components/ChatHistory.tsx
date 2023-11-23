@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { useContext, useEffect } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
   deleteChat,
   getChatHistory,
@@ -28,13 +28,17 @@ export const ChatHistory = () => {
   const conversations = useSelector((state: RootState) => state.conversations);
   const sidebar = useSelector((state: RootState) => state.sidebar);
 
-  const { register, handleSubmit, setValue } = useForm<UpdateChat>({
-    defaultValues: {
-      newTitle: "",
-      isLastOpenedChat: true,
-    },
-  });
+  const [title, setTitle] = useState("");
+  useEffect(() => {
+    const chat = sidebar.chatHistory.find(
+      (chat) => chat.id === conversations.id
+    );
+    if (chat) {
+      setTitle(chat.title);
+    }
+  }, [conversations.id, sidebar.chatHistory]);
 
+  const { register, handleSubmit, setValue } = useForm<UpdateChat>();
   const apiRepository = useContext<Repository>(RepositoryContext);
 
   const handleSelectChat = async (id: string) => {
@@ -56,6 +60,11 @@ export const ChatHistory = () => {
     await startNewChat(apiRepository, dispatch);
     await getChatHistory(apiRepository, dispatch);
     dispatch(toggleDeletePopUpOpen());
+  };
+
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+    setValue("newTitle", title);
   };
   const submitEditTitle = async (updateData: UpdateChat) => {
     if (updateData.newTitle) {
@@ -133,13 +142,13 @@ export const ChatHistory = () => {
                   </div>
                 )}
                 {sidebar.isTitleEditOn && conversations.id === chat.id && (
-                  <div className="w-full h-[25px] text-defaultTextColor text-sm px-1 bg-transparent border border-gray outline-none">
+                  <div className="w-full h-[25px] text-defaultTextColor text-sm px-1 bg-transparent border-b border-gray outline-none">
                     <input
                       {...register("newTitle")}
                       type="text"
-                      placeholder={chat.title}
                       onKeyDown={handleKeyDown}
-                      onChange={(e) => setValue("newTitle", e.target.value)}
+                      value={title}
+                      onChange={(e) => handleTitleChange(e)}
                       autoComplete="off"
                       className="w-full h-[20px] bg-transparent border-none outline-none"
                     />

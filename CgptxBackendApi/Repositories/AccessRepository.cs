@@ -34,5 +34,18 @@ namespace CgptxBackendApi.Repositories
                 return prevUser;
             }
         }
+
+        public async Task<UserProfile> getUserProfile(string userId)
+        {
+            var user = await _dbContext.Users.FindAsync(userId) ?? throw new Exception();
+            
+            var userProfile = new UserProfile{
+                first_name = user.first_name,
+                last_name = user.last_name,
+                email = user.email,
+                picture = user.picture
+            };
+            return userProfile;
+        }
     }
 }
